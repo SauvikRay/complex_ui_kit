@@ -162,13 +162,13 @@ final _controller=Get.put(DynamicController());
                                                           return Animate(
                                                               effects: const[SlideEffect(begin: Offset(1,0),end: Offset(0,0),duration: Duration(milliseconds: 600),curve: Curves.easeOutSine),FadeEffect(begin: 0.0,end: 1.0,duration: Duration(milliseconds: 300),curve: Curves.easeOutSine)],
                                                             child: ChoiceChip(
-                                                              avatar: isChildSelected?const Icon(CupertinoIcons.clear,size: 15,color: Colors.white,):null,
-                                                              materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
-                                                              backgroundColor: Colors.transparent,
-                                                              selectedColor:CupertinoColors.systemBlue,
-                                                              labelStyle: TextStyle(fontSize: 14,color:isChildSelected?Colors.white: CupertinoColors.activeBlue,fontWeight:isChildSelected? FontWeight.bold :FontWeight.normal),                                          
-                                                              shape: RoundedRectangleBorder(borderRadius: const BorderRadius.all(Radius.circular(5)),side: BorderSide(color:isChildSelected?CupertinoColors.activeBlue :CupertinoColors.inactiveGray)),
-                                                
+                                                avatar: isChildSelected?const Icon(CupertinoIcons.clear,size: 15,color: Colors.white,):null,
+                                                  materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
+                                                  labelPadding: EdgeInsets.zero,
+                                                  backgroundColor: Colors.transparent,
+                                                  selectedColor:CupertinoColors.systemBlue,
+                                                  labelStyle: TextStyle(fontSize: 14,color:isChildSelected?Colors.white: CupertinoColors.activeBlue,fontWeight:isChildSelected? FontWeight.bold :FontWeight.normal),
+                                                  shape: RoundedRectangleBorder(borderRadius:const BorderRadius.all(Radius.circular(5)),side: BorderSide(color:isChildSelected?CupertinoColors.activeBlue :CupertinoColors.inactiveGray)),
                                                               label: Text(item.name??''),
                                                               selected: isChildSelected,
                                                                onSelected: (value) {
