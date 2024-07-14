@@ -2,11 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -133,6 +135,11 @@ Widget _wrapWithBackground({
     final bool isDark = backgroundColor.computeLuminance() < 0.179;
     final Brightness newBrightness = brightness ?? (isDark ? Brightness.dark : Brightness.light);
     final SystemUiOverlayStyle overlayStyle = _findBrigthness(newBrightness);
+    log('overlayStyle.statusBarColor :${overlayStyle.statusBarColor}');
+    log(' overlayStyle.statusBarBrightness :${ overlayStyle.statusBarBrightness}');
+    log('overlayStyle.statusBarIconBrightness :${overlayStyle.statusBarIconBrightness}');
+    log('overlayStyle.statusBarIconBrightness :${overlayStyle.statusBarIconBrightness}');
+    log('overlayStyle.systemStatusBarContrastEnforced :${overlayStyle.systemStatusBarContrastEnforced}');
     // [SystemUiOverlayStyle.light] and [SystemUiOverlayStyle.dark] set some system
     // navigation bar properties,
     // Before https://github.com/flutter/flutter/pull/104827 those properties
@@ -141,8 +148,8 @@ Widget _wrapWithBackground({
     // For backward compatibility, create a `SystemUiOverlayStyle` without the
     // system navigation bar properties.
     result = AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: overlayStyle.statusBarColor,
+      value:SystemUiOverlayStyle(
+        statusBarColor:backgroundColor, //overlayStyle.statusBarColor,
         statusBarBrightness: overlayStyle.statusBarBrightness,
         statusBarIconBrightness: overlayStyle.statusBarIconBrightness,
         systemStatusBarContrastEnforced: overlayStyle.systemStatusBarContrastEnforced,
@@ -266,7 +273,6 @@ class _FlutterCupertinoAppBarWithTabBarState extends State<FlutterCupertinoAppBa
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = CupertinoDynamicColor.maybeResolve(widget.backgroundColor, context) ?? CupertinoTheme.of(context).barBackgroundColor;
-
     final _NavigationBarStaticComponents components = _NavigationBarStaticComponents(
       keys: keys,
       route: ModalRoute.of(context),
@@ -280,6 +286,7 @@ class _FlutterCupertinoAppBarWithTabBarState extends State<FlutterCupertinoAppBa
       userLargeTitle: null,
       large: false,
     );
+    
 
     final Widget navBar = _wrapWithBackground(
       border: widget.border,
@@ -300,33 +307,33 @@ class _FlutterCupertinoAppBarWithTabBarState extends State<FlutterCupertinoAppBa
     }
     if (widget.bottom != null) {
       return Builder(
-        // Get the context that might have a possibly changed CupertinoTheme.
-        builder: (BuildContext context) {
-          return Hero(
-            tag: widget.heroTag == _defaultHeroTag ? _HeroTag(Navigator.of(context)) : widget.heroTag,
-            createRectTween: _linearTranslateWithLargestRectSizeTween,
-            placeholderBuilder: _navBarHeroLaunchPadBuilder,
-            flightShuttleBuilder: _navBarHeroFlightShuttleBuilder,
-            transitionOnUserGestures: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _TransitionableNavigationBar(
-                  componentsKeys: keys,
-                  backgroundColor: backgroundColor,
-                  backButtonTextStyle: CupertinoTheme.of(context).textTheme.navActionTextStyle,
-                  titleTextStyle: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
-                  largeTitleTextStyle: null,
-                  border: widget.border,
-                  hasUserMiddle: widget.middle != null,
-                  largeExpanded: false,
-                  child: navBar,
-                ),
-                widget.bottom!
-              ],
-            ),
-          );
-        },
+          // Get the context that might have a possibly changed CupertinoTheme.
+          builder: (BuildContext context) {
+            return Hero(
+              tag: widget.heroTag == _defaultHeroTag ? _HeroTag(Navigator.of(context)) : widget.heroTag,
+              createRectTween: _linearTranslateWithLargestRectSizeTween,
+              placeholderBuilder: _navBarHeroLaunchPadBuilder,
+              flightShuttleBuilder: _navBarHeroFlightShuttleBuilder,
+              transitionOnUserGestures: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _TransitionableNavigationBar(
+                    componentsKeys: keys,
+                    backgroundColor: backgroundColor,
+                    backButtonTextStyle: CupertinoTheme.of(context).textTheme.navActionTextStyle,
+                    titleTextStyle: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+                    largeTitleTextStyle: null,
+                    border: widget.border,
+                    hasUserMiddle: widget.middle != null,
+                    largeExpanded: false,
+                    child: navBar,
+                  ),
+                  widget.bottom!
+                ],
+              ),
+            );
+          },
       );
     }
 

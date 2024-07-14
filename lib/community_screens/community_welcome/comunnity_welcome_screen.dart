@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ui_kit/widgets/custom_appbar.dart';
 import '../../utils/asset_icons.dart';
 import '../../utils/colors.dart';
 import '../../utils/common_style.dart';
@@ -74,14 +75,13 @@ class _CommunityWelcomeScreenState extends State<CommunityWelcomeScreen> {
             },
             child: Scaffold(
                 resizeToAvoidBottomInset: true,
-                appBar:
-                
-                 CupertinoAppbar(
-                  title: Text(
+                appBar:FlutterCupertinoAppBarWithTabBar(
+                  backgroundColor: allNewsBackgroundColor(context),
+                  middle: Text(
                     _changeAppbarTitle(_currentPageIndex),
                     style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: color979797),
                   ),
-                  leadingWidget: IconButton(
+                  leading: IconButton(
                     splashRadius: 20,
                     onPressed: () {
                       Get.back();

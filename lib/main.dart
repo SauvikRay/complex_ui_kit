@@ -33,31 +33,10 @@ class MyApp extends StatelessWidget {
       })),
       themeMode: ThemeMode.system,
       darkTheme: ThemeData.dark(useMaterial3: false),
-      home:AnnotatedRegion(
-        value: SystemUiOverlayStyle(
-        statusBarBrightness: systemBrightness == Brightness.dark ? Brightness.dark : Brightness.light,
-        statusBarColor: systemBrightness == Brightness.dark ? scaffoldDarkBackground : colorWhite,
-        statusBarIconBrightness: systemBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: systemBrightness == Brightness.dark ? scaffoldDarkBackground : colorWhite,
-      ),
-        child: const MyAppAppBar()),
+      home:CommunityWelcomeScreen(),
         navigatorKey: navigatorKey,
     );
   }
 }
+ 
 
-
-class MyAppAppBar extends StatelessWidget {
-  const MyAppAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-        Brightness systemBrightness = MediaQuery.of(context).platformBrightness;
-    return Scaffold(
-      appBar: FlutterCupertinoAppBarWithTabBar(
-        middle: Text('Test Appbar'),
-        bottom: PreferredSize(preferredSize: Size.fromHeight(30),child: Text('Bottom'),)
-      )
-    );
-  }
-}
