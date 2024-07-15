@@ -39,6 +39,7 @@ class CommunitySearchScreen extends StatelessWidget {
         ),
       ),
       body: CustomScrollView(
+         physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
         slivers: [
           SliverList(
               delegate: SliverChildListDelegate([

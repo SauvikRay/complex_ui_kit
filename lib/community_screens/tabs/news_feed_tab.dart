@@ -17,6 +17,7 @@ class NewsFeedTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+         physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
         slivers: [
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

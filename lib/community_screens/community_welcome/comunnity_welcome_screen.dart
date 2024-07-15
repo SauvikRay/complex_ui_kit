@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:ui_kit/widgets/custom_appbar.dart';
+import '../../drawer/drawer_controller.dart';
 import '../../utils/asset_icons.dart';
 import '../../utils/colors.dart';
 import '../../utils/common_style.dart';
@@ -31,6 +32,7 @@ class _CommunityWelcomeScreenState extends State<CommunityWelcomeScreen> {
   @override
   void initState() {
     super.initState();
+     Get.put(NewsDrawerController);
     pages = [
       OnBoardingPageOne(
         onPressed: () {
@@ -39,7 +41,7 @@ class _CommunityWelcomeScreenState extends State<CommunityWelcomeScreen> {
       ),
       OnBoardingPageTwo(
         onPressed: () {
-          Get.offAll(() => CommunityNavigationScreen());
+          Get.offAll(() => const CommunityNavigationScreen());
         },
       )
     ];
@@ -57,82 +59,73 @@ class _CommunityWelcomeScreenState extends State<CommunityWelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-        Brightness systemBrightness = MediaQuery.of(context).platformBrightness;
     return Semantics(
       container: true,
-
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarBrightness: systemBrightness == Brightness.dark ? Brightness.dark : Brightness.light,
-        statusBarColor: systemBrightness == Brightness.dark ? scaffoldDarkBackground : colorWhite,
-        statusBarIconBrightness: systemBrightness == Brightness.dark ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: systemBrightness == Brightness.dark ? scaffoldDarkBackground : colorWhite,
-      ),
-        child: Material(
-          child: GestureDetector(
-            onTap: () {
-              hideKyBoard(context);
-            },
-            child: Scaffold(
-                resizeToAvoidBottomInset: true,
-                appBar:FlutterCupertinoAppBarWithTabBar(
-                  backgroundColor: allNewsBackgroundColor(context),
-                  middle: Text(
-                    _changeAppbarTitle(_currentPageIndex),
-                    style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: color979797),
-                  ),
-                  leading: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(Icons.arrow_back_rounded),
-                  ),
+      child: Material(
+        child: GestureDetector(
+          onTap: () {
+            hideKyBoard(context);
+          },
+          child: Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: FlutterCupertinoAppBarWithTabBar(
+                backgroundColor: allNewsBackgroundColor(context),
+                middle: Text(
+                  key: ValueKey<String>(_changeAppbarTitle(_currentPageIndex)),
+                  _changeAppbarTitle(_currentPageIndex),
+                  style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: color979797),
                 ),
-          
-                // CupertinoNavigationBar(
-                //   backgroundColor: allNewsBackgroundColor(context),
-                //   padding: EdgeInsetsDirectional.zero,
-                //   leading: Material(
-                //     color: Colors.transparent,
-                //     child: IconButton(
-                //       splashRadius: 20,
-                //       onPressed: () {
-                //         Get.back();
-                //       },
-                //       icon: const Icon(Icons.arrow_back_rounded),
-                //     ),
-                //   ),
-                //   middle: AnimatedSwitcher(
-                //     duration: const Duration(milliseconds: 500),
-                //     transitionBuilder: (child, animation) {
-                //       return FadeTransition(
-                //         opacity: animation,
-                //         child: child,
-                //       );
-                //     },
-                //     child: Text(
-                //       key: ValueKey(_currentPageIndex),
-                //       _changeAppbarTitle(_currentPageIndex),
-                //       style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: Colors.white),
-                //     ),
-                //   ),
-                // ),
-          
-                body: Center(
-                  child: PageView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        _currentPageIndex = index;
-                        setState(() {});
-                      },
-                      itemCount: pages.length,
-                      itemBuilder: (context, index) {
-                        return pages[index];
-                      }),
-                )),
-          ),
+                leading: IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: const Icon(Icons.arrow_back_rounded),
+                ),
+              ),
+      
+              // CupertinoNavigationBar(
+              //   backgroundColor: allNewsBackgroundColor(context),
+              //   padding: EdgeInsetsDirectional.zero,
+              //   leading: Material(
+              //     color: Colors.transparent,
+              //     child: IconButton(
+              //       splashRadius: 20,
+              //       onPressed: () {
+              //         Get.back();
+              //       },
+              //       icon: const Icon(Icons.arrow_back_rounded),
+              //     ),
+              //   ),
+              //   middle: AnimatedSwitcher(
+              //     duration: const Duration(milliseconds: 500),
+              //     transitionBuilder: (child, animation) {
+              //       return FadeTransition(
+              //         opacity: animation,
+              //         child: child,
+              //       );
+              //     },
+              //     child: Text(
+              //       key: ValueKey(_currentPageIndex),
+              //       _changeAppbarTitle(_currentPageIndex),
+              //       style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: Colors.white),
+              //     ),
+              //   ),
+              // ),
+      
+              body: Center(
+                child: PageView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      _currentPageIndex = index;
+                      setState(() {});
+                    },
+                    itemCount: pages.length,
+                    itemBuilder: (context, index) {
+                      return pages[index];
+                    }),
+              )),
         ),
       ),
     );
@@ -206,7 +199,7 @@ class OnBoardingPageTwo extends StatelessWidget {
         context: context,
 
         // barrierColor: Colors.black.withOpacity(.5),
-        builder: (BuildContext context) => SearchBoxWithItemSheet(),
+        builder: (BuildContext context) => const SearchBoxWithItemSheet(),
       );
     }
 

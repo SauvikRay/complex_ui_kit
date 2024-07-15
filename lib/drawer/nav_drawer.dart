@@ -15,7 +15,7 @@ class AllNewsDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawerController = Get.find<NewsDrawerController>();
+    final drawerController = Get.put(NewsDrawerController());
     return Drawer(
       backgroundColor: allNewsBackgroundColor(context),
       width: 220,

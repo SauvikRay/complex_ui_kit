@@ -34,6 +34,7 @@ class ChaTab extends StatelessWidget {
           SizedBox(
             height: 120,
             child: CustomScrollView(
+               physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
               scrollDirection: Axis.horizontal,
               slivers: [
                 SliverPadding(
@@ -197,6 +198,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           ),
         ),
         body: CustomScrollView(
+           physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
           slivers: [
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),

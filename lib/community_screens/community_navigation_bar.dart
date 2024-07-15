@@ -113,15 +113,25 @@ class _CommunityNavigationScreenState extends State<CommunityNavigationScreen> w
           },
           icon: const Icon(Icons.menu_rounded),
         ),
-        middle: Text(
-          _buildAppBarTitle(titleindex),
-          style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: color979797),
+        middle: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 450),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return SlideTransition(
+              position: Tween<Offset>(begin: const Offset(0.0, -2.0), end: const Offset(0, 0.0)).animate(animation),
+              child: child,
+            );
+          },
+          child: Text(
+            key: ValueKey(_buildAppBarTitle(titleindex)),
+            _buildAppBarTitle(titleindex),
+            style: title16W500(context: context, lightThemeColor: color363638, darkThemeColor: color979797),
+          ),
         ),
         trailing: titleindex == 9
             ? _searchAndFilter()
             : GestureDetector(
                 onTap: () {
-                  Get.to(() => CommunityProfileScreen());
+                  Get.to(() => const CommunityProfileScreen());
                 },
                 child: Container(
                   padding: const EdgeInsets.only(right: 15.0),
@@ -321,7 +331,7 @@ class _CommunityNavigationScreenState extends State<CommunityNavigationScreen> w
           children: [
             BaseIconButton(
               onPressed: () {
-                Get.to(() => CommunitySearchScreen(), transition: Transition.rightToLeft);
+                Get.to(() => const CommunitySearchScreen(), transition: Transition.rightToLeft);
               },
               icon: AssetIcons.icCommunitySearch,
             ),

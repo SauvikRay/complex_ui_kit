@@ -24,6 +24,7 @@ class TimeLineTab extends StatelessWidget {
     final TimelineController _timeLineController = Get.find<TimelineController>();
     return CustomScrollView(
       scrollDirection: Axis.vertical,
+      physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -72,6 +73,7 @@ class TimeLineTab extends StatelessWidget {
             SizedBox(
               height: 220,
               child: CustomScrollView(
+                 physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
                 scrollDirection: Axis.horizontal,
                 // controller: _timeLineController.suggestController,
                 slivers: [

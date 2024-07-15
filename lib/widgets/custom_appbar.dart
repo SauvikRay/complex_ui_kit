@@ -135,11 +135,6 @@ Widget _wrapWithBackground({
     final bool isDark = backgroundColor.computeLuminance() < 0.179;
     final Brightness newBrightness = brightness ?? (isDark ? Brightness.dark : Brightness.light);
     final SystemUiOverlayStyle overlayStyle = _findBrigthness(newBrightness);
-    log('overlayStyle.statusBarColor :${overlayStyle.statusBarColor}');
-    log(' overlayStyle.statusBarBrightness :${ overlayStyle.statusBarBrightness}');
-    log('overlayStyle.statusBarIconBrightness :${overlayStyle.statusBarIconBrightness}');
-    log('overlayStyle.statusBarIconBrightness :${overlayStyle.statusBarIconBrightness}');
-    log('overlayStyle.systemStatusBarContrastEnforced :${overlayStyle.systemStatusBarContrastEnforced}');
     // [SystemUiOverlayStyle.light] and [SystemUiOverlayStyle.dark] set some system
     // navigation bar properties,
     // Before https://github.com/flutter/flutter/pull/104827 those properties

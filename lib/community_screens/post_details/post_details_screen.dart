@@ -46,6 +46,7 @@ class PostDetailsScreen extends StatelessWidget {
           ),
           // resizeToAvoidBottomInset: true,
           body: CustomScrollView(
+             physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
             slivers: [
               SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -488,7 +489,9 @@ class _CommentModalWidgetState extends State<CommentModalWidget> {
             ),
             SpaceHepler.verticalMedium,
             Expanded(
-              child: CustomScrollView(slivers: [
+              child: CustomScrollView(
+                 physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
+                slivers: [
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   sliver: SliverList(

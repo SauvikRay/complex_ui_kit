@@ -35,7 +35,9 @@ class _PostTabState extends State<PostTab> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      
       scrollDirection: Axis.vertical,
+      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
       slivers: [
         SliverPadding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -82,6 +84,7 @@ class _PostTabState extends State<PostTab> {
             SizedBox(
               height: 220,
               child: CustomScrollView(
+                 physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.normal)),
                 scrollDirection: Axis.horizontal,
                 // controller: _timeLineController.suggestController,
                 slivers: [
