@@ -3,8 +3,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:ui_kit/controller.dart';
-import 'subcategory_model.dart';
+
+import 'animated_category.dart';
+import 'dummy_data.dart';
+import 'model/subcategory_response.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,10 +42,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _controller = DynamicController();
+final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler());
   @override
   void initState() {
-    _controller.parseSubcategory();
+
     super.initState();
   }
 
@@ -53,153 +57,144 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
             height: 10,
           ),
-          Container(
-            height: 100,
-            width: double.infinity,
-            alignment: Alignment.centerLeft,
-            // decoration: const BoxDecoration(color: Colors.red),
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _controller.subcategory.length,
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 10);
-                      },
-                      itemBuilder: (context, index) {
-                        SubCategory element = _controller.subcategory[index];
-                        final isSelected = _controller.selectedChips.containsKey(element.subCateId);
-                        return Animate(
-                          effects: const [
-                            SlideEffect(begin: Offset(1, 0), end: Offset(0, 0), duration: Duration(milliseconds: 600), curve: Curves.easeOutSine),
-                            FadeEffect(begin: 0.0, end: 1.0, duration: Duration(milliseconds: 300), curve: Curves.easeOutSine)
-                          ],
-                          child: ChoiceChip(
-                            avatar: isSelected
-                                ? const Icon(
-                                    CupertinoIcons.clear,
-                                    size: 15,
-                                    color: Colors.white,
-                                  )
-                                : null,
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            labelPadding: EdgeInsets.zero,
-                            backgroundColor: Colors.transparent,
-                            selectedColor: CupertinoColors.systemBlue,
-                            labelStyle: TextStyle(fontSize: 14, color: isSelected ? Colors.white : CupertinoColors.activeBlue, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: const BorderRadius.all(Radius.circular(5)), side: BorderSide(color: isSelected ? CupertinoColors.activeBlue : CupertinoColors.inactiveGray)),
-                            label: Text("${element.subCateName}"),
-                            selected: isSelected,
-                            onSelected: (value) {
-                              // log('Selected Chips value $value');
-                              if (value) {
-                                // isVisible = value;
-                                // // log('allSubcategory length: ${allSubcategory.length}');
-                                // _controller.selectedChips[element.subCateId ?? ''] = element;
-                                // _controller.subcategory.removeWhere((item) => item.subCateId != element.subCateId);
-
-                                // // _controller.allChildCategoryItem=element.child??[];
-                                // // _controller.childCategory.value=element.child??[];
-                                // _controller.childCategory.addAll(element.child ?? []);
-                                _controller.ifSelectedSubCategory(value: value, element: element);
-
-                                setState(() {});
-                              } else {
-                                _controller.elseSelectedSubCategory(value: value, element: element);
-                                setState(() {});
-                              }
-                              //  selectedSubCategory.value = subcategory.elementAt(index);
-                            },
-                          ),
-                        );
-                      }),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Visibility(
-                    visible: _controller.isVisible,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _controller.childCategory.length,
-                      separatorBuilder: (context, index) => const SizedBox(width: 10),
-                      itemBuilder: (context, index) {
-                        ChildCategory item = _controller.childCategory[index];
-                        final isChildSelected = _controller.selectedChildChips.containsKey(item.id);
-                        return Animate(
-                          effects: const [
-                            SlideEffect(begin: Offset(1, 0), end: Offset(0, 0), duration: Duration(milliseconds: 600), curve: Curves.easeOutSine),
-                            FadeEffect(begin: 0.0, end: 1.0, duration: Duration(milliseconds: 300), curve: Curves.easeOutSine)
-                          ],
-                          child: ChoiceChip(
-                            avatar: isChildSelected
-                                ? const Icon(
-                                    CupertinoIcons.clear,
-                                    size: 15,
-                                    color: Colors.white,
-                                  )
-                                : null,
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            labelPadding: EdgeInsets.zero,
-                            backgroundColor: Colors.transparent,
-                            selectedColor: CupertinoColors.systemBlue,
-                            labelStyle: TextStyle(fontSize: 14, color: isChildSelected ? Colors.white : CupertinoColors.activeBlue, fontWeight: isChildSelected ? FontWeight.bold : FontWeight.normal),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: const BorderRadius.all(Radius.circular(5)), side: BorderSide(color: isChildSelected ? CupertinoColors.activeBlue : CupertinoColors.inactiveGray)),
-                            label: Text(item.name ?? ''),
-                            selected: isChildSelected,
-                            onSelected: (value) {
-                              log('if length:${_controller.allChildCategoryItem.length}');
-                              if (value) {
-                                // log('if condition length:${allChildCategoryItem.length}');
-                                _controller.selectedChildChips[item.id ?? ''] = item;
-                                _controller.childCategory.removeWhere((element) => element.id != item.id);
-                                setState(() {});
-                              } else {
-                                _controller.selectedChildChips.remove(item.id);
-                                _controller.selectedChildChips.clear();
-                                _controller.childCategory.remove(item);
-                                Set<ChildCategory> uniqueItem = Set<ChildCategory>.from(_controller.allChildCategoryItem).union(Set<ChildCategory>.from(_controller.childCategory));
-                                // log('Child Item length: ${uniqueItem.length}');
-
-                                _controller.childCategory.addAll(uniqueItem.toList());
-
-                                log('sdfsdd : ${_controller.allChildCategoryItem.length}');
-                                setState(() {});
-
-                                // for(var iiii in allChildCategoryItem){
-                                //   log('All child Item: ${iiii.name}');
-                                // }
-                              }
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          
           const SizedBox(
+            height: 100,
+          ),
+
+       
+          // DropdownButtonFormField<Subcategory>(
+          //   hint: Text('Dropdown'),
+          //       onChanged: (value) {
+          //         log('Ón change val ${value?.subCateName}');
+          //       },
+          //        decoration: const InputDecoration(
+          //           contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10),
+          //           border: OutlineInputBorder(),
+          //           enabledBorder:OutlineInputBorder(),
+          //           fillColor: Colors.transparent,
+          //           filled: true,
+          //           focusedBorder: OutlineInputBorder(),
+          //           floatingLabelBehavior: FloatingLabelBehavior.always),
+                
+          //       items: _controller.subctList.map((item){
+          //         return DropdownMenuItem(
+          //           value: item,
+          //           child: ,
+          //         );
+          //       }).toList(),
+          //     ),
+                
+        
+   const SizedBox(
             height: 20,
           ),
+
+
+            FutureBuilder(
+                        future: _controller.loadSubcategoryResponse('80'),
+                        builder: ((context, snapshot) {
+                          List<Subcategory> subcategoryList = snapshot.data ?? [];
+                          if (subcategoryList.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+                          return AnimatedCategory(
+                            subcategoryList: subcategoryList,
+                            onCallBack: (data) {
+                              // setState(() {
+                              //   _controller.newsList = [];
+                              //   _controller.trendingList = [];
+                              //   isClicked = true;
+                              // });
+                              if (data['type'] == 'child-category') {
+                                // childCategoryId = int.tryParse(data['id']) ?? 0;
+
+                                // subCategoryId = int.tryParse(data['subCategory']['id']) ?? 0;
+                                // topicsName = data['name'];
+                                // showLoader();
+                                // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, childCategoryId, 0, (isSuccess) {
+                                //   Get.back();
+
+                                //   isClicked = false;
+                                //   setState(() {});
+                                // });
+                              } else {
+                                // childCategoryId = 0;
+                                // subCategoryId = int.tryParse(data['id']) ?? 0;
+                                // topicsName = data['name'];
+                                // showLoader();
+                                // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, 0, 0, (isSuccess) {
+                                //   Get.back();
+
+                                //   isClicked = false;
+                                //   setState(() {});
+                                // });
+                              }
+                            },
+                          );
+                        })),
+
+
+        
         ],
       ),
 
 // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+
+
+
+
+
+
+const double _kMenuItemHeight = 48.0;
+
+
+class ChipItem<T> extends _ChipItemContainer {
+
+  const ChipItem({
+    super.key,
+    this.onTap,
+    this.value,
+    this.enabled = true,
+    super.alignment,
+    required super.child,
+  });
+
+
+  final VoidCallback? onTap;
+
+
+  final T? value;
+
+  final bool enabled;
+}
+class _ChipItemContainer extends StatelessWidget {
+ 
+  const _ChipItemContainer({
+    super.key,
+    this.alignment = AlignmentDirectional.centerStart,
+    required this.child,
+  });
+
+  final Widget child;
+
+  final AlignmentGeometry alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(minHeight: _kMenuItemHeight),
+      alignment: alignment,
+      child: child,
     );
   }
 }
