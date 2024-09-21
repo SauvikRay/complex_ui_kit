@@ -9,6 +9,7 @@ import 'package:ui_kit/custom_icons.dart';
 import 'package:ui_kit/ic_over_view_icons.dart';
 
 import 'animated_category.dart';
+import 'bidduit/my_first_screen.dart';
 import 'dummy_data.dart';
 import 'model/subcategory_response.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:const MyFirstScreen(appbarName: "My Appbar",) //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
