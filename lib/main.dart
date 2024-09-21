@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:ui_kit/controller.dart';
+import 'package:ui_kit/custom_icons.dart';
+import 'package:ui_kit/ic_over_view_icons.dart';
 
 import 'animated_category.dart';
 import 'dummy_data.dart';
@@ -42,10 +44,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler());
+  final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler());
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -62,12 +63,11 @@ final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler(
           const SizedBox(
             height: 10,
           ),
-          
+
           const SizedBox(
             height: 100,
           ),
 
-       
           // DropdownButtonFormField<Subcategory>(
           //   hint: Text('Dropdown'),
           //       onChanged: (value) {
@@ -81,7 +81,7 @@ final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler(
           //           filled: true,
           //           focusedBorder: OutlineInputBorder(),
           //           floatingLabelBehavior: FloatingLabelBehavior.always),
-                
+
           //       items: _controller.subctList.map((item){
           //         return DropdownMenuItem(
           //           value: item,
@@ -89,77 +89,101 @@ final AnimatedCategoryControler _controller = Get.put(AnimatedCategoryControler(
           //         );
           //       }).toList(),
           //     ),
-                
-        
-   const SizedBox(
+
+          const SizedBox(
             height: 20,
           ),
+          Icon(IcOverView.ic_overview,color: CupertinoColors.activeBlue,),
+          Icon(Icons.abc),
+          FutureBuilder(
+              future: _controller.loadSubcategoryResponse('80'),
+              builder: ((context, snapshot) {
+                List<Subcategory> subcategoryList = snapshot.data ?? [];
+                if (subcategoryList.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return AnimatedCategory(
+                  subcategoryList: subcategoryList,
+                  onCallBack: (data) {
+                    // setState(() {
+                    //   _controller.newsList = [];
+                    //   _controller.trendingList = [];
+                    //   isClicked = true;
+                    // });
+                    if (data['type'] == 'child-category') {
+                      // childCategoryId = int.tryParse(data['id']) ?? 0;
 
+                      // subCategoryId = int.tryParse(data['subCategory']['id']) ?? 0;
+                      // topicsName = data['name'];
+                      // showLoader();
+                      // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, childCategoryId, 0, (isSuccess) {
+                      //   Get.back();
 
-            FutureBuilder(
-                        future: _controller.loadSubcategoryResponse('80'),
-                        builder: ((context, snapshot) {
-                          List<Subcategory> subcategoryList = snapshot.data ?? [];
-                          if (subcategoryList.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
-                          return AnimatedCategory(
-                            subcategoryList: subcategoryList,
-                            onCallBack: (data) {
-                              // setState(() {
-                              //   _controller.newsList = [];
-                              //   _controller.trendingList = [];
-                              //   isClicked = true;
-                              // });
-                              if (data['type'] == 'child-category') {
-                                // childCategoryId = int.tryParse(data['id']) ?? 0;
+                      //   isClicked = false;
+                      //   setState(() {});
+                      // });
+                    } else {
+                      // childCategoryId = 0;
+                      // subCategoryId = int.tryParse(data['id']) ?? 0;
+                      // topicsName = data['name'];
+                      // showLoader();
+                      // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, 0, 0, (isSuccess) {
+                      //   Get.back();
 
-                                // subCategoryId = int.tryParse(data['subCategory']['id']) ?? 0;
-                                // topicsName = data['name'];
-                                // showLoader();
-                                // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, childCategoryId, 0, (isSuccess) {
-                                //   Get.back();
-
-                                //   isClicked = false;
-                                //   setState(() {});
-                                // });
-                              } else {
-                                // childCategoryId = 0;
-                                // subCategoryId = int.tryParse(data['id']) ?? 0;
-                                // topicsName = data['name'];
-                                // showLoader();
-                                // _controller.getNewsByCategory(super.widget.selectedTopic.id, subCategoryId, 0, 0, (isSuccess) {
-                                //   Get.back();
-
-                                //   isClicked = false;
-                                //   setState(() {});
-                                // });
-                              }
-                            },
-                          );
-                        })),
-
-
-        
+                      //   isClicked = false;
+                      //   setState(() {});
+                      // });
+                    }
+                  },
+                );
+              })),
         ],
       ),
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(IcNews.ic_news),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.green,
+        onTap: (value) {},
+        items: [
+          BottomNavigationBarItem(
+              icon: GestureDetector(
+                  onTap: () {},
+                  child: Icon(
+                    Icons.home,
+                    color: Colors.red,
+                  )),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.red,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.red,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.red,
+              ),
+              label: ''),
+        ],
+      ),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-
-
-
-
-
-
 const double _kMenuItemHeight = 48.0;
 
-
 class ChipItem<T> extends _ChipItemContainer {
-
   const ChipItem({
     super.key,
     this.onTap,
@@ -169,16 +193,14 @@ class ChipItem<T> extends _ChipItemContainer {
     required super.child,
   });
 
-
   final VoidCallback? onTap;
-
 
   final T? value;
 
   final bool enabled;
 }
+
 class _ChipItemContainer extends StatelessWidget {
- 
   const _ChipItemContainer({
     super.key,
     this.alignment = AlignmentDirectional.centerStart,
