@@ -1,0 +1,2 @@
+C:/Users/Sauvik/Desktop/Android/ui_kit/android/app/.cxx/Debug/4l4h3g6c/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Sauvik/Desktop/Android/ui_kit/android/app/.cxx/Debug/4l4h3g6c/x86_64/CMakeFiles/rebuild_cache.dir
